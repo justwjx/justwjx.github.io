@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cutaway Studio · Lab-Grade Product Mechanism &amp; Exploder Videos</title>
+<style>
+  :root {
+    --bg: #070b12;
+    --bg2: #0d1420;
+    --card: #111a2a;
+    --card-hi: #162236;
+    --border: rgba(148, 163, 184, 0.16);
+    --border-accent: rgba(56, 189, 248, 0.45);
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --accent-solid: #0ea5e9;
+    --green: #34d399;
+    --amber: #fbbf24;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { max-width: 100%; overflow-x: hidden; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(to right, rgba(56,189,248,0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(56,189,248,0.045) 1px, transparent 1px),
+      radial-gradient(circle at 20% 0%, #10203a 0%, var(--bg) 52%);
+    background-size: 48px 48px, 48px 48px, 100% 100%;
+    color: var(--text);
+    line-height: 1.55;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 1120px; width: 100%; margin: 0 auto; padding: 0 20px; }
+
+  /* Nav */
+  header {
+    position: sticky; top: 0; z-index: 40;
+    background: rgba(7, 11, 18, 0.82);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px; gap: 16px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 800; letter-spacing: 0.06em; font-size: 16px;
+    color: var(--text); text-decoration: none;
+  }
+  .brand-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 12px var(--accent);
+  }
+  .nav-right { display: flex; align-items: center; gap: 18px; }
+  .nav-link {
+    color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500;
+    transition: color 0.15s;
+  }
+  .nav-link:hover { color: var(--text); }
+  .lang-toggle {
+    display: inline-flex; background: var(--card); border: 1px solid var(--border);
+    border-radius: 999px; padding: 3px; gap: 2px;
+  }
+  .lang-btn {
+    border: 0; background: transparent; color: var(--muted);
+    padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 700;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .lang-btn.active { background: var(--accent-solid); color: #04101a; }
+
+  /* Hero */
+  .hero { padding: 64px 0 72px; }
+  .hero-grid {
+    display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 48px; align-items: center;
+  }
+  .eyebrow {
+    display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px;
+    padding: 6px 14px; border-radius: 14px; max-width: 100%;
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid var(--border-accent);
+    color: var(--accent); font-size: 12px; font-weight: 700; letter-spacing: 0.05em;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: clamp(32px, 4.4vw, 52px);
+    line-height: 1.12; font-weight: 800; letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .accent-text { color: var(--accent); }
+  .hero-sub {
+    font-size: 17px; color: var(--muted); max-width: 560px; margin-bottom: 28px;
+  }
+  .metrics-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    margin-bottom: 32px; max-width: 540px;
+  }
+  .metric-box {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px 16px;
+  }
+  .metric-val { font-size: 22px; font-weight: 800; color: var(--text); }
+  .metric-lbl { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .btn-primary {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--accent-solid); color: #04101a;
+    font-weight: 800; font-size: 15px; padding: 13px 24px;
+    border-radius: 12px; text-decoration: none; border: 0; cursor: pointer;
+    box-shadow: 0 8px 28px rgba(14, 165, 233, 0.28);
+    transition: transform 0.15s, background 0.15s;
+  }
+  .btn-primary:hover { transform: translateY(-1px); background: #38bdf8; }
+  .btn-secondary {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--card); color: var(--text);
+    font-weight: 700; font-size: 15px; padding: 13px 22px;
+    border-radius: 12px; text-decoration: none; border: 1px solid var(--border);
+    transition: border-color 0.15s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); }
+
+  /* Phone Player Frame */
+  .reel-wrap { display: flex; flex-direction: column; align-items: center; }
+  .phone-frame {
+    width: 310px; max-width: 100%;
+    background: #04070c;
+    border: 2px solid rgba(56, 189, 248, 0.35);
+    border-radius: 30px; padding: 10px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.65), 0 0 40px rgba(14, 165, 233, 0.12);
+  }
+  .phone-frame video {
+    width: 100%; aspect-ratio: 9 / 16; display: block;
+    border-radius: 20px; background: #000; object-fit: cover;
+  }
+  .reel-caption {
+    font-size: 12px; color: var(--muted); margin-top: 12px; text-align: center;
+  }
+
+  /* Sections */
+  section { padding: 68px 0; border-top: 1px solid var(--border); }
+  .section-head { margin-bottom: 36px; }
+  .section-kicker {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 8px;
+  }
+  h2 { font-size: clamp(24px, 3vw, 34px); font-weight: 800; letter-spacing: -0.01em; }
+  .section-desc { color: var(--muted); margin-top: 8px; max-width: 660px; }
+
+  /* Cases Grid */
+  .cases-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+  }
+  .case-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 18px; overflow: hidden; display: flex; flex-direction: column;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+  .case-card:hover { border-color: var(--border-accent); transform: translateY(-2px); }
+  .case-thumb-wrap { position: relative; width: 100%; aspect-ratio: 4 / 5; overflow: hidden; background: #09101a; }
+  .case-thumb {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.25s ease;
+  }
+  .case-card:hover .case-thumb { transform: scale(1.03); }
+  .case-play-badge {
+    position: absolute; bottom: 12px; left: 12px;
+    background: rgba(14, 165, 233, 0.88); color: #04101a;
+    border: 1px solid rgba(224, 242, 254, 0.55);
+    backdrop-filter: blur(6px);
+    font-size: 11px; font-weight: 800; padding: 6px 11px; border-radius: 999px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  }
+  .case-body { padding: 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .case-tag {
+    font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 0.04em;
+  }
+  .case-title { font-size: 16px; font-weight: 700; color: var(--text); }
+  .case-desc { font-size: 13px; color: var(--muted); }
+
+  /* Pricing */
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+  }
+  .price-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; padding: 28px 24px;
+    display: flex; flex-direction: column; position: relative;
+  }
+  .price-card.featured {
+    background: linear-gradient(180deg, rgba(14,165,233,0.12) 0%, var(--card) 55%);
+    border-color: var(--accent);
+    box-shadow: 0 18px 44px rgba(14, 165, 233, 0.14);
+  }
+  .pop-pill {
+    position: absolute; top: -12px; right: 20px;
+    background: var(--accent-solid); color: #04101a;
+    font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 999px;
+  }
+  .tier-name { font-size: 15px; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+  .tier-price { font-size: 38px; font-weight: 800; line-height: 1.1; margin-bottom: 6px; }
+  .tier-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+  .tier-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 26px; flex: 1; }
+  .tier-list li {
+    font-size: 14px; color: #cbd5e1; padding-left: 20px; position: relative;
+  }
+  .tier-list li::before {
+    content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 800;
+  }
+
+  /* Process */
+  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .step-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 22px 18px;
+  }
+  .step-num {
+    font-size: 12px; font-weight: 800; color: var(--accent);
+    background: rgba(56,189,248,0.12); display: inline-block;
+    padding: 4px 10px; border-radius: 8px; margin-bottom: 12px;
+  }
+  .step-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .step-desc { font-size: 13px; color: var(--muted); }
+
+  /* Contact Box */
+  .contact-box {
+    background: linear-gradient(135deg, rgba(14,165,233,0.14), rgba(17,26,42,0.95));
+    border: 1px solid var(--border-accent);
+    border-radius: 24px; padding: 40px 36px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .contact-box h2 { margin-bottom: 8px; }
+  .contact-meta { font-size: 14px; color: #cbd5e1; margin-top: 10px; }
+  .contact-meta code {
+    background: rgba(7,11,18,0.75); border: 1px solid var(--border);
+    padding: 4px 10px; border-radius: 8px; color: var(--accent); font-size: 13px;
+    cursor: pointer; transition: border-color 0.15s, background 0.15s;
+  }
+  .contact-meta code:hover { border-color: var(--accent); background: rgba(14,165,233,0.16); }
+
+  /* Contact Modal */
+  .modal-backdrop {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(4, 7, 12, 0.78); backdrop-filter: blur(8px);
+    display: none; align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal-card {
+    width: 100%; max-width: 520px;
+    background: #0e1624; border: 1px solid var(--border-accent);
+    border-radius: 22px; padding: 28px 24px;
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.72);
+    position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    width: 34px; height: 34px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--card); color: var(--muted);
+    font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+  .modal-close:hover { color: var(--text); border-color: var(--accent); }
+  .modal-title { font-size: 21px; font-weight: 800; margin-bottom: 6px; padding-right: 36px; }
+  .modal-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+  .copy-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 12px; padding: 12px 14px; margin-bottom: 10px;
+  }
+  .copy-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .copy-val { font-size: 15px; font-weight: 700; color: var(--text); word-break: break-all; }
+  .copy-btn {
+    flex-shrink: 0; border: 1px solid var(--border-accent);
+    background: rgba(56, 189, 248, 0.14); color: var(--accent);
+    font-size: 12px; font-weight: 700; padding: 7px 14px; border-radius: 9px;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .copy-btn:hover { background: var(--accent-solid); color: #04101a; }
+  .copy-btn.copied { background: var(--green); border-color: var(--green); color: #04101a; }
+  .modal-actions {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px;
+  }
+  .modal-foot {
+    margin-top: 14px; text-align: center; font-size: 12px; color: var(--muted);
+  }
+  .modal-foot a { color: var(--accent); text-decoration: none; }
+  .modal-foot a:hover { text-decoration: underline; }
+  .selected-plan-pill {
+    display: inline-block; margin-bottom: 14px;
+    padding: 5px 12px; border-radius: 999px;
+    background: rgba(56, 189, 248, 0.14); border: 1px solid var(--border-accent);
+    color: var(--accent); font-size: 12px; font-weight: 700;
+  }
+  .video-modal-card {
+    width: 100%; max-width: 400px;
+    background: #0e1624; border: 1px solid var(--border-accent);
+    border-radius: 24px; padding: 18px 18px 20px;
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.8);
+    position: relative; display: flex; flex-direction: column; align-items: center;
+  }
+  .video-modal-title {
+    align-self: flex-start; font-size: 16px; font-weight: 800;
+    margin-bottom: 12px; padding-right: 38px;
+  }
+  .video-modal-card video {
+    width: 100%; max-height: 66vh; aspect-ratio: 9 / 16;
+    border-radius: 16px; background: #000; object-fit: contain;
+  }
+  .video-modal-cta { width: 100%; margin-top: 14px; }
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--green); color: #04101a; font-weight: 800; font-size: 13px;
+    padding: 10px 18px; border-radius: 999px; opacity: 0; pointer-events: none;
+    transition: opacity 0.2s, transform 0.2s; z-index: 120;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  footer {
+    border-top: 1px solid var(--border); padding: 28px 0 44px;
+    color: var(--muted); font-size: 13px; text-align: center;
+  }
+
+  @media (max-width: 960px) {
+    .hero { padding: 36px 0 48px; }
+    .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; text-align: left; }
+    .cases-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .pricing-grid { grid-template-columns: minmax(0, 1fr); }
+    .steps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .cases-grid, .steps-grid { grid-template-columns: minmax(0, 1fr); }
+    .metrics-row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .metric-box { padding: 10px 10px; }
+    .metric-val { font-size: 18px; }
+    .nav-link { display: none; }
+    .brand { font-size: 14px; }
+  }
+</style>
+</head>
+<body class="grid-bg">
+
+<header>
+  <div class="container nav">
+    <a class="brand" href="#top"><span class="brand-dot"></span><span data-i18n="brand">CUTAWAY STUDIO</span></a>
+    <div class="nav-right">
+      <a class="nav-link" href="#cases" data-i18n="navCases">Case Studies</a>
+      <a class="nav-link" href="#pricing" data-i18n="navPricing">Pricing</a>
+      <a class="nav-link" href="#process" data-i18n="navProcess">48h Process</a>
+      <a class="nav-link" href="#contact" data-i18n="navContact">Book a Video</a>
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button class="lang-btn active" id="btn-en" type="button">EN</button>
+        <button class="lang-btn" id="btn-zh" type="button">中文</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" style="border-top:0;">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow" data-i18n="eyebrow">AMAZON A+ · TIKTOK SHOP · KICKSTARTER · DTC HARDWARE</div>
+        <h1 data-i18n-html="heroTitle">Turn Invisible Engineering Into <span class="accent-text">Instant Buyer Trust</span>.</h1>
+        <p class="hero-sub" data-i18n="heroSub">
+          Lab-grade product cutaway animations, internal mechanism teardowns, and visual proof videos — built for hardware &amp; appliance brands in 48 hours, at 1/10th the cost of a traditional 3D studio.
+        </p>
+
+        <div class="metrics-row">
+          <div class="metric-box">
+            <div class="metric-val" data-i18n="m1Val">48h</div>
+            <div class="metric-lbl" data-i18n="m1Lbl">First Cut Turnaround</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val" data-i18n="m2Val">$199</div>
+            <div class="metric-lbl" data-i18n="m2Lbl">Fixed Price · No Retainer</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val" data-i18n="m3Val">100%</div>
+            <div class="metric-lbl" data-i18n="m3Lbl">Muted-Autoplay Ready</div>
+          </div>
+        </div>
+
+        <div class="cta-row">
+          <button class="btn-primary open-contact-trigger" type="button" data-plan="free" data-i18n="ctaPrimary">Start a 48h Test Video</button>
+          <a class="btn-secondary" href="#pricing" data-i18n="ctaSecondary">See Fixed Pricing</a>
+        </div>
+      </div>
+
+      <div class="reel-wrap">
+        <div class="phone-frame">
+          <video id="hero-video" controls playsinline preload="metadata" poster="media/showreel_en_poster.jpg">
+            <source id="hero-source" src="media/showreel_en_web.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="reel-caption" data-i18n="reelCap">48-second Commercial Showreel · 1080p Master Available on Delivery</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cases">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-kicker" data-i18n="casesKicker">PROVEN VISUAL CATEGORIES</div>
+        <h2 data-i18n="casesTitle">Why Shoppers Pay $200 Instead of $30 — Shown in 45 Seconds</h2>
+        <p class="section-desc" data-i18n="casesDesc">Every sample below was produced on our deterministic teardown pipeline — zero physical studio rental, crystal-clear visual proof even on muted autoplay.</p>
+      </div>
+      <div class="cases-grid">
+        <article class="case-card" data-demo="media/case_hairdryer_demo.mp4" data-case-key="c1Title" data-case-id="hairdryer">
+          <div class="case-thumb-wrap">
+            <img class="case-thumb" src="media/case_hairdryer.jpg" alt="High-Speed Hair Dryer Cutaway">
+            <span class="case-play-badge" data-i18n="playBadge">▶ Watch 20s Demo</span>
+          </div>
+          <div class="case-body">
+            <div class="case-tag" data-i18n="c1Tag">BEAUTY &amp; PERSONAL CARE</div>
+            <div class="case-title" data-i18n="c1Title">110,000 RPM Hair Dryer Motor</div>
+            <div class="case-desc" data-i18n="c1Desc">Brushed commutator sparks vs. CNC micro-impeller &amp; mechanical water-droplet shear test.</div>
+          </div>
+        </article>
+        <article class="case-card" data-demo="media/case_toothbrush_demo.mp4" data-case-key="c2Title" data-case-id="toothbrush">
+          <div class="case-thumb-wrap">
+            <img class="case-thumb" src="media/case_toothbrush.jpg" alt="Sonic Electric Toothbrush Motor">
+            <span class="case-play-badge" data-i18n="playBadge">▶ Watch 20s Demo</span>
+          </div>
+          <div class="case-body">
+            <div class="case-tag" data-i18n="c2Tag">ORAL CARE HARDWARE</div>
+            <div class="case-title" data-i18n="c2Title">Magnetic Linear Sonic Drive</div>
+            <div class="case-desc" data-i18n="c2Desc">Side-by-side beaker rig, macro magnetic spring cutaway &amp; loaded dental-model torque proof.</div>
+          </div>
+        </article>
+        <article class="case-card" data-demo="media/case_thermos_demo.mp4" data-case-key="c3Title" data-case-id="thermos">
+          <div class="case-thumb-wrap">
+            <img class="case-thumb" src="media/case_thermos.jpg" alt="Copper-Lined Insulated Tumbler">
+            <span class="case-play-badge" data-i18n="playBadge">▶ Watch 20s Demo</span>
+          </div>
+          <div class="case-body">
+            <div class="case-tag" data-i18n="c3Tag">VACUUM DRINKWARE</div>
+            <div class="case-title" data-i18n="c3Title">Copper-Lined Vacuum Flask</div>
+            <div class="case-desc" data-i18n="c3Desc">Dual boiling-water heat test, copper-plating factory dip line &amp; precision silicone gasket macro.</div>
+          </div>
+        </article>
+        <article class="case-card" data-demo="media/case_powerbank_demo.mp4" data-case-key="c4Title" data-case-id="powerbank">
+          <div class="case-thumb-wrap">
+            <img class="case-thumb" src="media/case_powerbank.jpg" alt="GaN Power Bank Thermal Safety">
+            <span class="case-play-badge" data-i18n="playBadge">▶ Watch 20s Demo</span>
+          </div>
+          <div class="case-body">
+            <div class="case-tag" data-i18n="c4Tag">CONSUMER ELECTRONICS</div>
+            <div class="case-title" data-i18n="c4Title">GaN Power Bank Thermal Safety</div>
+            <div class="case-desc" data-i18n="c4Desc">Live surface temperature probe, ESD bench teardown &amp; cell-level NTC sensor protection closeup.</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-kicker" data-i18n="priceKicker">TRANSPARENT FIXED MENU</div>
+        <h2 data-i18n="priceTitle">No Hourly Surprises. No 3-Week Agency Retainers.</h2>
+        <p class="section-desc" data-i18n="priceDesc">Traditional 3D cutaway studios charge $1,500–$8,000 and require CAD files. Send us your listing URL and key specs — we handle the rest.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="tier-name" data-i18n="p1Name">SINGLE CUTAWAY</div>
+          <div class="tier-price" data-i18n="p1Price">$199</div>
+          <div class="tier-sub" data-i18n="p1Sub">Best for testing 1 hero SKU on Amazon A+ or TikTok Ads</div>
+          <ul class="tier-list" data-i18n-list="p1List">
+            <li>1× 45–60s Lab &amp; Mechanism Explainer (1080p)</li>
+            <li>9:16 vertical OR 16:9 widescreen format</li>
+            <li>Conversion script + studio EN or ZH voiceover</li>
+            <li>Muted-autoplay kinetic captions &amp; spec badges</li>
+            <li>48-hour first cut + 1 free revision round</li>
+            <li>Full commercial &amp; paid-ad usage rights</li>
+          </ul>
+          <button class="btn-secondary open-contact-trigger" type="button" data-plan="p1" data-i18n="p1Btn">Order 1 Test Video</button>
+        </div>
+
+        <div class="price-card featured">
+          <div class="pop-pill" data-i18n="popLabel">MOST POPULAR</div>
+          <div class="tier-name" data-i18n="p2Name">GROWTH PACK (5 VIDEOS)</div>
+          <div class="tier-price" data-i18n="p2Price">$799</div>
+          <div class="tier-sub" data-i18n="p2Sub">$160 / video · Built for multi-SKU brands &amp; ad hook testing</div>
+          <ul class="tier-list" data-i18n-list="p2List">
+            <li>5× Mechanism / Lab Proof Videos (1080p / 4K)</li>
+            <li>Both 9:16 + 16:9 exports included per video</li>
+            <li>3 alternate opening 3-second ad hooks</li>
+            <li>Optional bilingual EN + ZH delivery</li>
+            <li>Priority 48h turnaround per deliverable</li>
+            <li>Dedicated private online review link</li>
+          </ul>
+          <button class="btn-primary open-contact-trigger" type="button" data-plan="p2" data-i18n="p2Btn">Book Growth Pack</button>
+        </div>
+
+        <div class="price-card">
+          <div class="tier-name" data-i18n="p3Name">AGENCY / LOCALIZATION PARTNER</div>
+          <div class="tier-price" data-i18n="p3Price">$1,499<span style="font-size:16px;font-weight:600;color:var(--muted);">/mo</span></div>
+          <div class="tier-sub" data-i18n="p3Sub">White-label supply for Amazon &amp; Kickstarter agencies</div>
+          <ul class="tier-list" data-i18n-list="p3List">
+            <li>Up to 10× Cutaway or Multilingual Localization videos/mo</li>
+            <li>100% white-label delivery (resell to your clients)</li>
+            <li>EN / ZH / ES / JP dubbing &amp; OCR subtitle replacement</li>
+            <li>Shared async review board with version history</li>
+            <li>Direct Slack / Email / WeChat async desk</li>
+            <li>Pause or cancel any month — zero lock-in</li>
+          </ul>
+          <button class="btn-secondary open-contact-trigger" type="button" data-plan="p3" data-i18n="p3Btn">Partner With Us</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-kicker" data-i18n="procKicker">ZERO-MEETING ASYNC WORKFLOW</div>
+        <h2 data-i18n="procTitle">From Product Link to Ad-Ready MP4 in 48 Hours</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">STEP 01</div>
+          <div class="step-title" data-i18n="s1Title">Send Your SKU Link</div>
+          <div class="step-desc" data-i18n="s1Desc">Share your Amazon/Shopify/Taobao link plus the top 2–3 internal engineering points buyers miss.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">STEP 02</div>
+          <div class="step-title" data-i18n="s2Title">12h Visual Script</div>
+          <div class="step-desc" data-i18n="s2Desc">We deliver a tight 45-second storyboard &amp; voice script optimized for 3-second scroll stop.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">STEP 03</div>
+          <div class="step-title" data-i18n="s3Title">48h Online Preview</div>
+          <div class="step-desc" data-i18n="s3Desc">Review the rendered cut in your browser. Request text, pacing, or spec callout tweaks (1 round free).</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">STEP 04</div>
+          <div class="step-title" data-i18n="s4Title">Launch &amp; Convert</div>
+          <div class="step-desc" data-i18n="s4Desc">Download clean 1080p/4K MP4 masters with full commercial rights for product pages and paid ads.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <div class="contact-box">
+        <div>
+          <div class="section-kicker" data-i18n="ctKicker">READY IN 48 HOURS</div>
+          <h2 data-i18n="ctTitle">Send Your Product Link — Get a Custom Visual Concept Free</h2>
+          <p class="section-desc" data-i18n="ctDesc">Not sure how to visualize your internal mechanism? Email us your SKU link and we'll send back a free 3-shot visual storyboard within 24 hours.</p>
+          <div class="contact-meta" data-i18n-html="ctMeta">
+            Direct Business Desk: <code class="quick-copy" data-copy="justwjx@gmail.com">justwjx@gmail.com</code> &nbsp;·&nbsp; WeChat / Async Brief: <code class="quick-copy" data-copy="justwjx">justwjx</code>
+          </div>
+        </div>
+        <div>
+          <button class="btn-primary open-contact-trigger" id="open-contact-btn" type="button" data-plan="free" data-i18n="ctBtn">Request Free 3-Shot Concept</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Video Lightbox Modal for Category Mini-Demos -->
+<div class="modal-backdrop" id="video-modal" role="dialog" aria-modal="true" aria-labelledby="video-modal-title">
+  <div class="video-modal-card">
+    <button class="modal-close" id="video-modal-close" type="button" aria-label="Close">×</button>
+    <div class="video-modal-title" id="video-modal-title">Category Demo</div>
+    <video id="demo-video" controls playsinline></video>
+    <button class="btn-primary video-modal-cta" id="video-modal-book" type="button" data-i18n="vmBookBtn">Book 48h Custom Cut for This Category</button>
+  </div>
+</div>
+
+<!-- Zero-friction Contact Modal (works in all browsers & WeChat without relying on OS mailto:) -->
+<div class="modal-backdrop" id="contact-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-card">
+    <button class="modal-close" id="modal-close" type="button" aria-label="Close">×</button>
+    <div class="selected-plan-pill" id="selected-plan-pill" style="display:none;"></div>
+    <div class="modal-title" id="modal-title" data-i18n="mTitle">Request Your Free 3-Shot Concept</div>
+    <div class="modal-sub" data-i18n="mSub">Copy our direct contact or launch Gmail Web — works on desktop, mobile &amp; WeChat with zero mail-client errors.</div>
+
+    <div class="copy-row">
+      <div>
+        <div class="copy-label" data-i18n="mEmailLbl">Direct Email</div>
+        <div class="copy-val">justwjx@gmail.com</div>
+      </div>
+      <button class="copy-btn" type="button" data-copy="justwjx@gmail.com" data-i18n="mCopy">Copy</button>
+    </div>
+
+    <div class="copy-row">
+      <div>
+        <div class="copy-label" data-i18n="mWechatLbl">WeChat ID (Fastest in China)</div>
+        <div class="copy-val">justwjx</div>
+      </div>
+      <button class="copy-btn" type="button" data-copy="justwjx" data-i18n="mCopy">Copy</button>
+    </div>
+
+    <div class="modal-actions">
+      <a class="btn-primary" id="gmail-web-btn" target="_blank" rel="noopener noreferrer" href="https://mail.google.com/mail/?view=cm&fs=1&to=justwjx@gmail.com&su=48h%20Product%20Cutaway%20Video%20Inquiry&body=Product%20URL%3A%20%0ATop%202%20internal%20engineering%20points%3A%20%0ATarget%20format%20(9%3A16%20%2F%2016%3A9)%3A%20" style="font-size:14px;padding:11px 14px;" data-i18n="mGmail">Open Gmail Web</a>
+      <button class="btn-secondary" id="copy-brief-btn" type="button" style="font-size:14px;padding:11px 14px;cursor:pointer;" data-i18n="mBriefBtn">Copy 3-Line Brief</button>
+    </div>
+
+    <div class="modal-foot">
+      <span data-i18n="mFallback">Have Apple Mail / Outlook configured?</span>
+      <a id="mailto-fallback" href="mailto:justwjx@gmail.com?subject=48h%20Product%20Cutaway%20Video%20Inquiry" data-i18n="mMailto">Open Mail App</a>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast">Copied!</div>
+
+<footer>
+  <div class="container">
+    <span data-i18n="footer">© 2026 Cutaway Studio · Internal Mechanism &amp; Lab Proof Video Production · All Samples Rendered In-House</span>
+  </div>
+</footer>
+
+<script>
+const STUDIO_CONFIG = {
+  email: "justwjx@gmail.com",
+  handle: "justwjx"
+};
+
+const I18N = {
+  en: {
+    brand: "CUTAWAY STUDIO",
+    navCases: "Case Studies",
+    navPricing: "Pricing",
+    navProcess: "48h Process",
+    navContact: "Book a Video",
+    eyebrow: "AMAZON A+ · TIKTOK SHOP · KICKSTARTER · DTC HARDWARE",
+    heroTitle: 'Turn Invisible Engineering Into <span class="accent-text">Instant Buyer Trust</span>.',
+    heroSub: "Lab-grade product cutaway animations, internal mechanism teardowns, and visual proof videos — built for hardware & appliance brands in 48 hours, at 1/10th the cost of a traditional 3D studio.",
+    m1Val: "48h", m1Lbl: "First Cut Turnaround",
+    m2Val: "$199", m2Lbl: "Fixed Price · No Retainer",
+    m3Val: "100%", m3Lbl: "Muted-Autoplay Ready",
+    ctaPrimary: "Start a 48h Test Video",
+    ctaSecondary: "See Fixed Pricing",
+    reelCap: "48-second Commercial Showreel · 1080p Master Available on Delivery",
+    casesKicker: "PROVEN VISUAL CATEGORIES",
+    casesTitle: "Why Shoppers Pay $200 Instead of $30 — Shown in 45 Seconds",
+    casesDesc: "Every sample below was produced on our deterministic teardown pipeline — zero physical studio rental, crystal-clear visual proof even on muted autoplay.",
+    c1Tag: "BEAUTY & PERSONAL CARE", c1Title: "110,000 RPM Hair Dryer Motor", c1Desc: "Brushed commutator sparks vs. CNC micro-impeller & mechanical water-droplet shear test.",
+    c2Tag: "ORAL CARE HARDWARE", c2Title: "Magnetic Linear Sonic Drive", c2Desc: "Side-by-side beaker rig, macro magnetic spring cutaway & loaded dental-model torque proof.",
+    c3Tag: "VACUUM DRINKWARE", c3Title: "Copper-Lined Vacuum Flask", c3Desc: "Dual boiling-water heat test, copper-plating factory dip line & precision silicone gasket macro.",
+    c4Tag: "CONSUMER ELECTRONICS", c4Title: "GaN Power Bank Thermal Safety", c4Desc: "Live surface temperature probe, ESD bench teardown & cell-level NTC sensor protection closeup.",
+    playBadge: "▶ Watch 20s Demo",
+    vmBookBtn: "Book 48h Cut for This Category",
+    planLabels: {
+      free: "Free 3-Shot Visual Concept (24h)",
+      p1: "Selected: Single Cutaway ($199)",
+      p2: "Selected: Growth Pack · 5 Videos ($799)",
+      p3: "Selected: Agency / Localization Partner ($1,499/mo)"
+    },
+    priceKicker: "TRANSPARENT FIXED MENU",
+    priceTitle: "No Hourly Surprises. No 3-Week Agency Retainers.",
+    priceDesc: "Traditional 3D cutaway studios charge $1,500–$8,000 and require CAD files. Send us your listing URL and key specs — we handle the rest.",
+    popLabel: "MOST POPULAR",
+    p1Name: "SINGLE CUTAWAY", p1Price: "$199", p1Sub: "Best for testing 1 hero SKU on Amazon A+ or TikTok Ads",
+    p1List: [
+      "1× 45–60s Lab & Mechanism Explainer (1080p)",
+      "9:16 vertical OR 16:9 widescreen format",
+      "Conversion script + studio EN or ZH voiceover",
+      "Muted-autoplay kinetic captions & spec badges",
+      "48-hour first cut + 1 free revision round",
+      "Full commercial & paid-ad usage rights"
+    ],
+    p1Btn: "Order 1 Test Video",
+    p2Name: "GROWTH PACK (5 VIDEOS)", p2Price: "$799", p2Sub: "$160 / video · Built for multi-SKU brands & ad hook testing",
+    p2List: [
+      "5× Mechanism / Lab Proof Videos (1080p / 4K)",
+      "Both 9:16 + 16:9 exports included per video",
+      "3 alternate opening 3-second ad hooks",
+      "Optional bilingual EN + ZH delivery",
+      "Priority 48h turnaround per deliverable",
+      "Dedicated private online review link"
+    ],
+    p2Btn: "Book Growth Pack",
+    p3Name: "AGENCY / LOCALIZATION PARTNER", p3Price: '$1,499<span style="font-size:16px;font-weight:600;color:var(--muted);">/mo</span>', p3Sub: "White-label supply for Amazon & Kickstarter agencies",
+    p3List: [
+      "Up to 10× Cutaway or Multilingual Localization videos/mo",
+      "100% white-label delivery (resell to your clients)",
+      "EN / ZH / ES / JP dubbing & OCR subtitle replacement",
+      "Shared async review board with version history",
+      "Direct Slack / Email / WeChat async desk",
+      "Pause or cancel any month — zero lock-in"
+    ],
+    p3Btn: "Partner With Us",
+    procKicker: "ZERO-MEETING ASYNC WORKFLOW",
+    procTitle: "From Product Link to Ad-Ready MP4 in 48 Hours",
+    s1Title: "Send Your SKU Link", s1Desc: "Share your Amazon/Shopify/Taobao link plus the top 2–3 internal engineering points buyers miss.",
+    s2Title: "12h Visual Script", s2Desc: "We deliver a tight 45-second storyboard & voice script optimized for 3-second scroll stop.",
+    s3Title: "48h Online Preview", s3Desc: "Review the rendered cut in your browser. Request text, pacing, or spec callout tweaks (1 round free).",
+    s4Title: "Launch & Convert", s4Desc: "Download clean 1080p/4K MP4 masters with full commercial rights for product pages and paid ads.",
+    ctKicker: "READY IN 48 HOURS",
+    ctTitle: "Send Your Product Link — Get a Custom Visual Concept Free",
+    ctDesc: "Not sure how to visualize your internal mechanism? Email us your SKU link and we'll send back a free 3-shot visual storyboard within 24 hours.",
+    ctMeta: `Direct Business Desk: <code class="quick-copy" data-copy="${STUDIO_CONFIG.email}">${STUDIO_CONFIG.email}</code> &nbsp;·&nbsp; WeChat / Async Brief: <code class="quick-copy" data-copy="${STUDIO_CONFIG.handle}">${STUDIO_CONFIG.handle}</code>`,
+    ctBtn: "Request Free 3-Shot Concept",
+    mTitle: "Request Your Free 3-Shot Concept",
+    mSub: "Copy our direct contact or launch Gmail Web — works on desktop, mobile & WeChat with zero mail-client errors.",
+    mEmailLbl: "Direct Email",
+    mWechatLbl: "WeChat ID (Fastest for China / Cross-Border)",
+    mCopy: "Copy",
+    mCopied: "Copied ✓",
+    mGmail: "Open Gmail Web",
+    mBriefBtn: "Copy 3-Line Brief",
+    mBriefText: "Product URL:\nTop 2 internal engineering points:\nTarget format (9:16 / 16:9) & language (EN / ZH):",
+    mFallback: "Have Apple Mail / Outlook configured?",
+    mMailto: "Open Mail App",
+    mGmailHref: "https://mail.google.com/mail/?view=cm&fs=1&to=justwjx@gmail.com&su=48h%20Product%20Cutaway%20Video%20Inquiry&body=Product%20URL%3A%20%0ATop%202%20internal%20engineering%20points%3A%20%0ATarget%20format%20(9%3A16%20%2F%2016%3A9)%3A%20",
+    footer: "© 2026 Cutaway Studio · Internal Mechanism & Lab Proof Video Production · All Samples Rendered In-House",
+    videoSrc: "media/showreel_en_web.mp4",
+    videoPoster: "media/showreel_en_poster.jpg"
+  },
+  zh: {
+    brand: "剖面工坊 · CUTAWAY",
+    navCases: "行业样片",
+    navPricing: "明码报价",
+    navProcess: "48小时交付",
+    navContact: "获取样片方案",
+    eyebrow: "淘宝天猫 · 抖音小店 · 小红书 · 跨境亚马逊主图与投流",
+    heroTitle: '把藏在产品里的真材实料，<span class="accent-text">3秒拍给买家看</span>。',
+    heroSub: "专做小家电、消费电子、母婴家居的「内部结构解剖 + 实验室级对比实测」短视频。无需几万元三维公司排期，48小时极速交片，把参数表变成直接拉高转化率的视觉证据。",
+    m1Val: "48小时", m1Lbl: "首版成片极速交付",
+    m2Val: "¥999", m2Lbl: "明码标价 · 单条起测",
+    m3Val: "双语", m3Lbl: "中英双版 · 适配出海",
+    ctaPrimary: "试做第1条主图拆解片",
+    ctaSecondary: "查看透明套餐",
+    reelCap: "48秒商业样片合集 · 正式交付提供 1080P/4K 高清母版",
+    casesKicker: "已跑通的高转化消费品样片",
+    casesTitle: "同样卖299和卖29，45秒让买家一眼看懂贵在哪",
+    casesDesc: "以下全部样片均由本工作室确定性视觉管线出品：无需租棚拆真机、静音自动播放依然3秒看懂核心卖点。",
+    c1Tag: "个护小家电", c1Title: "11万转高速吹风机马达对比", c1Desc: "有刷碳刷火星特写 vs 微型无刷CNC叶轮 + 强风整滴推水实测。",
+    c2Tag: "口腔护理硬件", c2Title: "磁悬浮声波电动牙刷内芯", c2Desc: "双烧杯震动实测、磁悬浮双钢片微距拆解与模拟齿模带载扭矩对照。",
+    c3Tag: "真空保温杯壶", c3Title: "内胆镀铜锁温工艺解剖", c3Desc: "双杯滚水对照实测、镀铜产线工艺演示与硅胶密封圈微距检查。",
+    c4Tag: "3C快充电源", c4Title: "充电宝电芯与温控安全剖析", c4Desc: "外壳探头测温、ESD工位主板电芯拆解与贴芯NTC感温保护演示。",
+    playBadge: "▶ 播放 20 秒样片",
+    vmBookBtn: "预约同品类 48h 定制",
+    planLabels: {
+      free: "免费获取 3 镜定制方案（24h 内回复）",
+      p1: "已选：单条爆款试水版（¥999）",
+      p2: "已选：爆品矩阵 5 条包（¥3,999）",
+      p3: "已选：代运营/出海月度包（¥6,800/月）"
+    },
+    priceKicker: "透明固定菜单 · 拒绝漫天议价",
+    priceTitle: "不按小时扯皮，不绑高额年费",
+    priceDesc: "传统三维动画外包单条 ¥3,000–¥10,000 且必须提供 CAD 图纸。你只需要发商品链接和 3 个核心卖点，其余全交给我们。",
+    popLabel: "最多品牌选择",
+    p1Name: "单条爆款试水版", p1Price: "¥999", p1Sub: "适合先拿 1 款主力 SKU 测主图/投流转化率",
+    p1List: [
+      "1条 45–60秒内部结构与实测演示片（1080P）",
+      "支持 9:16 竖屏 或 16:9 横屏主图规格",
+      "含卖点脚本重构 + 广播级中文或英文配音",
+      "适配静音自动播放的醒目标签与大字幕",
+      "48小时交初片 + 含 1 轮免费文字/节奏微调",
+      "完整商业与信息流投流使用权"
+    ],
+    p1Btn: "先测 1 条样片",
+    p2Name: "爆品矩阵 5 条包", p2Price: "¥3,999", p2Sub: "折合 ¥800/条 · 适合多款 SKU 或投流 A/B 测钩子",
+    p2List: [
+      "5条产品内部解剖 / 实测对比成片（1080P/4K）",
+      "每条同时交付 9:16 竖屏 + 16:9 横屏双尺寸",
+      "额外赠送 3 版不同前 3 秒投流开场钩子",
+      "可选加配跨境英文母语配音版",
+      "优先排产，每条 48 小时内交付",
+      "提供专属加密在线审片页"
+    ],
+    p2Btn: "预订 5 条矩阵包",
+    p3Name: "代运营/出海月度包", p3Price: '¥6,800<span style="font-size:16px;font-weight:600;color:var(--muted);">/月</span>', p3Sub: "适合 MCN、跨境品牌与电商代运营团队白标采购",
+    p3List: [
+      "每月最多 10 条结构拆解片 或 出海多语本地化",
+      "100% 白标无水印交付，可直接向客户转售",
+      "支持中→英/西/日配音 + 硬字幕视觉避让精压",
+      "共享异步审片看板与历史版本留档",
+      "微信/飞书/邮件异步对接，零无效开会",
+      "按月合作，随时可暂停，无长约捆绑"
+    ],
+    p3Btn: "洽谈月包合作",
+    procKicker: "极简异步流程 · 零无效会议",
+    procTitle: "发一个商品链接，48小时拿可投流成片",
+    s1Title: "发商品链接与卖点", s1Desc: "发淘宝/抖音/亚马逊链接，列出 2–3 个消费者平时看不见的内部好工艺。",
+    s2Title: "12小时确认分镜脚本", s2Desc: "我们输出针对前 3 秒停滑优化的 45 秒口播与画面清单，你只需点头确认。",
+    s3Title: "48小时在线审片", s3Desc: "手机/电脑直接点开在线审片页看成片，支持 1 轮免费字卡/节奏微调。",
+    s4Title: "下载成片直接上架", s4Desc: "交付无水印高清 MP4 母版，直接挂主图、小红书或投信息流广告。",
+    ctKicker: "免费出3镜创意方案",
+    ctTitle: "把你的主力商品链接发来，24小时内免费出 3 镜可视化方案",
+    ctDesc: "不确定你的产品内部卖点怎么拍最吸睛？发来商品页链接，先免费看一版定制拆解思路，满意再下单。",
+    ctMeta: `商务对接邮箱（点击复制）：<code class="quick-copy" data-copy="${STUDIO_CONFIG.email}">${STUDIO_CONFIG.email}</code> &nbsp;·&nbsp; 微信（点击复制）：<code class="quick-copy" data-copy="${STUDIO_CONFIG.handle}">${STUDIO_CONFIG.handle}</code>`,
+    ctBtn: "免费获取 3 镜拆解方案",
+    mTitle: "免费获取 3 镜定制拆解方案",
+    mSub: "直接复制微信或邮箱发送商品链接即可，不依赖本机邮件客户端（手机/微信内打开同样可用）。",
+    mEmailLbl: "商务对接邮箱",
+    mWechatLbl: "微信直连（国内响应最快，备注「拆解样片」）",
+    mCopy: "一键复制",
+    mCopied: "已复制 ✓",
+    mGmail: "网页打开 Gmail",
+    mBriefBtn: "复制 3 行需求模板",
+    mBriefText: "商品链接：\n最想拍透的 2 个内部工艺/卖点：\n需要尺寸（9:16竖屏 / 16:9横屏）与语言（中文/英文）：",
+    mFallback: "本机已配置邮件客户端？",
+    mMailto: "唤起系统邮件",
+    mGmailHref: "https://mail.google.com/mail/?view=cm&fs=1&to=justwjx@gmail.com&su=48%E5%B0%8F%E6%97%B6%E4%BA%A7%E5%93%81%E6%8B%86%E8%A7%A3%E8%A7%86%E9%A2%91%E5%92%A8%E8%AF%A2&body=%E5%95%86%E5%93%81%E9%93%BE%E6%8E%A5%EF%BC%9A%0A%E6%A0%B8%E5%BF%83%E5%86%85%E9%83%A8%E5%8D%96%E7%82%B9%EF%BC%9A%0A%E7%9B%AE%E6%A0%87%E5%B0%BA%E5%AF%B8%EF%BC%889%3A16%20%2F%2016%3A9%EF%BC%89%EF%BC%9A",
+    footer: "© 2026 剖面工坊 Cutaway Studio · 消费品内部结构与实测短视频定制 · 所有样片均为自研产线实出",
+    videoSrc: "media/showreel_zh_web.mp4",
+    videoPoster: "media/showreel_zh_poster.jpg"
+  }
+};
+
+let CURRENT_LANG = "en";
+let SELECTED_CONTEXT = "";
+let ACTIVE_DEMO_CATEGORY = "";
+
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(() => t.classList.remove("show"), 1800);
+}
+
+function copyText(text, btnEl) {
+  const done = () => {
+    const dict = I18N[CURRENT_LANG] || I18N.en;
+    showToast(`${dict.mCopied} ${text.length > 28 ? "" : text}`);
+    if (btnEl && btnEl.classList.contains("copy-btn")) {
+      const orig = btnEl.textContent;
+      btnEl.textContent = dict.mCopied;
+      btnEl.classList.add("copied");
+      setTimeout(() => { btnEl.textContent = orig; btnEl.classList.remove("copied"); }, 1500);
+    }
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else {
+    fallbackCopy(text, done);
+  }
+}
+
+function fallbackCopy(text, cb) {
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.position = "fixed";
+  ta.style.opacity = "0";
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand("copy"); } catch (_) {}
+  document.body.removeChild(ta);
+  cb();
+}
+
+function updateContactTargets() {
+  const dict = I18N[CURRENT_LANG] || I18N.en;
+  const pill = document.getElementById("selected-plan-pill");
+  if (SELECTED_CONTEXT) {
+    pill.textContent = SELECTED_CONTEXT;
+    pill.style.display = "inline-block";
+  } else {
+    pill.style.display = "none";
+  }
+  const subj = SELECTED_CONTEXT
+    ? `${SELECTED_CONTEXT} — Cutaway Studio`
+    : (CURRENT_LANG === "zh" ? "48小时产品拆解视频咨询" : "48h Product Cutaway Video Inquiry");
+  const body = (SELECTED_CONTEXT ? `${SELECTED_CONTEXT}\n\n` : "") + dict.mBriefText;
+  const gmailHref = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(STUDIO_CONFIG.email)}&su=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
+  document.getElementById("gmail-web-btn").setAttribute("href", gmailHref);
+  document.getElementById("mailto-fallback").setAttribute("href", `mailto:${STUDIO_CONFIG.email}?subject=${encodeURIComponent(subj)}`);
+}
+
+function openContactModal(contextLabel) {
+  SELECTED_CONTEXT = contextLabel || "";
+  updateContactTargets();
+  document.getElementById("contact-modal").classList.add("open");
+}
+
+function closeVideoModal() {
+  const vModal = document.getElementById("video-modal");
+  const vEl = document.getElementById("demo-video");
+  vModal.classList.remove("open");
+  vEl.pause();
+  vEl.removeAttribute("src");
+  vEl.load();
+}
+
+function setLang(lang) {
+  CURRENT_LANG = lang === "zh" ? "zh" : "en";
+  const dict = I18N[CURRENT_LANG];
+  document.documentElement.lang = CURRENT_LANG === "zh" ? "zh-CN" : "en";
+  document.getElementById("btn-en").classList.toggle("active", CURRENT_LANG === "en");
+  document.getElementById("btn-zh").classList.toggle("active", CURRENT_LANG === "zh");
+
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const k = el.getAttribute("data-i18n");
+    if (dict[k] !== undefined) el.textContent = dict[k];
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach(el => {
+    const k = el.getAttribute("data-i18n-html");
+    if (dict[k] !== undefined) el.innerHTML = dict[k];
+  });
+  document.querySelectorAll("[data-i18n-list]").forEach(el => {
+    const k = el.getAttribute("data-i18n-list");
+    if (Array.isArray(dict[k])) {
+      el.innerHTML = dict[k].map(item => `<li>${item}</li>`).join("");
+    }
+  });
+  const p3 = document.querySelector('[data-i18n="p3Price"]');
+  if (p3) p3.innerHTML = dict.p3Price;
+  updateContactTargets();
+
+  const video = document.getElementById("hero-video");
+  const source = document.getElementById("hero-source");
+  if (source.getAttribute("src") !== dict.videoSrc) {
+    video.pause();
+    video.setAttribute("poster", dict.videoPoster);
+    source.setAttribute("src", dict.videoSrc);
+    video.load();
+  }
+}
+
+const modal = document.getElementById("contact-modal");
+const vModal = document.getElementById("video-modal");
+
+document.querySelectorAll(".open-contact-trigger").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const planKey = btn.getAttribute("data-plan") || "free";
+    const dict = I18N[CURRENT_LANG] || I18N.en;
+    openContactModal((dict.planLabels && dict.planLabels[planKey]) || "");
+  });
+});
+
+document.querySelectorAll(".case-card[data-demo]").forEach(card => {
+  card.addEventListener("click", () => {
+    const dict = I18N[CURRENT_LANG] || I18N.en;
+    const titleKey = card.getAttribute("data-case-key");
+    const demoUrl = card.getAttribute("data-demo");
+    const catTitle = dict[titleKey] || "Category Demo";
+    ACTIVE_DEMO_CATEGORY = catTitle;
+    document.getElementById("video-modal-title").textContent = catTitle;
+    const vEl = document.getElementById("demo-video");
+    vEl.setAttribute("src", demoUrl);
+    vModal.classList.add("open");
+    vEl.play().catch(() => {});
+  });
+});
+
+document.getElementById("video-modal-book").addEventListener("click", () => {
+  const cat = ACTIVE_DEMO_CATEGORY;
+  closeVideoModal();
+  const prefix = CURRENT_LANG === "zh" ? "已选品类：" : "Category: ";
+  openContactModal(cat ? `${prefix}${cat}` : "");
+});
+
+document.getElementById("video-modal-close").addEventListener("click", closeVideoModal);
+vModal.addEventListener("click", (e) => { if (e.target === vModal) closeVideoModal(); });
+document.getElementById("modal-close").addEventListener("click", () => modal.classList.remove("open"));
+modal.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("open"); });
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    modal.classList.remove("open");
+    closeVideoModal();
+  }
+});
+document.getElementById("copy-brief-btn").addEventListener("click", () => {
+  const dict = I18N[CURRENT_LANG] || I18N.en;
+  const text = (SELECTED_CONTEXT ? `${SELECTED_CONTEXT}\n` : "") + dict.mBriefText;
+  copyText(text);
+});
+document.addEventListener("click", (e) => {
+  const t = e.target.closest("[data-copy]");
+  if (t) copyText(t.getAttribute("data-copy"), t);
+});
+
+document.getElementById("btn-en").addEventListener("click", () => setLang("en"));
+document.getElementById("btn-zh").addEventListener("click", () => setLang("zh"));
+if (new URLSearchParams(window.location.search).get("lang") === "zh") {
+  setLang("zh");
+}
+</script>
+</body>
+</html>
